@@ -1,0 +1,55 @@
+{% extends 'documents/base.html' %}
+
+{% block menu2 %}
+  <a href="{{request.META.HTTP_REFERER}}">Вернуться</a>
+{% endblock %}
+
+{% block content %}
+  <div class="task_new">
+    <h1>Новое поручение</h1>
+    <div class="task_form">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="col-md-4">
+              <p>{{ taskForm.title.label_tag }}</p>
+              <p>{{ taskForm.receiver.label_tag }}</p>
+              <p>{{ taskForm.group.label_tag }}</p>
+              <div class="form_text"><p>{{ taskForm.text.label_tag }}</p></div>
+              <p>{{ taskForm.quickly.label_tag }}</p>
+              <p>{{ taskForm.final_date.label_tag }}</p>
+        </div>
+        <div>
+          <p>{{ taskForm.title }}</p>
+          <div class="error">{{taskForm.title.errors}}</div>
+          <p>{{ taskForm.receiver }}</p>
+          <div class="error">{{taskForm.receiver.errors}}</div>
+          <p>{{ taskForm.group }}</p>
+          <div class="error">{{taskForm.group.errors}}</div>
+          <div>
+            <p>{{ taskForm.text }}</p>
+            <div class="error">{{taskForm.text.errors}}</div>
+          </div>
+          <p>{{ taskForm.quickly }}</p>
+          <div class="error">{{taskForm.quickly.errors}}</div>
+          <p>{{ taskForm.final_date }}</p>
+          <div class="error">{{taskForm.final_date.errors}}</div>
+        </div>
+
+        <div class="file">
+          {% for field in fileForm %}
+            {{ field }}
+            <div class="error">{{field.errors}}</div>
+          {% endfor %}
+        </div>
+        <div class="button1"><button type="submit">Создать</button></div>
+      </form>
+      <!--<form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ taskForm.as_p }}
+        {{ fileForm.as_p }}
+        <button type="submit">Отправить</button>
+      </form>-->
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'documents/base.html' %}
+
+{% block menu2 %}
+    <a href="{{request.META.HTTP_REFERER}}">Вернуться</a>
+{% endblock %}
+
+{% block content %}
+    <div class="doc_new">
+        <h1>Регистрация документа</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-md-4">
+                {% for field in docForm %}
+                    <p>{{ field.label_tag }}</p>
+                {% endfor %}
+            </div>
+            <div>
+                {% for field in docForm %}
+                    <p>{{ field }}</p>
+                    <div class="error">{{field.errors}}</div>
+                {% endfor %}
+            </div>
+            <div class="file">
+                {% for field in fileForm %}
+                    {{ field }}
+                    <div class="error">{{field.errors}}</div>
+                {% endfor %}
+            </div>
+            <!--{{ docForm.as_p }}
+            {{ fileForm.as_p }}-->
+            <div class="button">
+                <button type="submit">Зарегистрировать</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

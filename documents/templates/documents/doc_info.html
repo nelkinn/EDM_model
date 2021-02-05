@@ -1,0 +1,37 @@
+{% extends 'documents/doc_list.html' %}
+
+{% block doc_info %}
+    <div class="col-md-6 doc_display">
+        <div class="info_doc">
+            <h1>{{ selection_doc.title }}</h1>
+            <div class="info_bar">
+                <div>Компания: {{ selection_doc.author }}</div>
+                <div>Регистратор: {{ selection_doc.registrator }}, {{ selection_doc.create_date }}</div>
+            </div>
+
+            <div class="row files_bar">
+                <div class="col-md-2 border_class">
+                    <div class="title_bar">
+                        Тип
+                    </div>
+                    <div class="title_bar1">
+                        {{ selection_doc.group }}
+                    </div>
+                </div>
+
+                <div class="row col-md-10 border_class">
+                    <div class="title_bar">
+                        Вложения
+                    </div>
+                    {% for doc in doc_file %}
+                        <div class="col-md-3 link_doc">
+                            <a href="{{ doc.file.url }}" target="iframe_a" class="frameOn" onfocus="showFrame()"
+                               tabindex="1"><p><img src="{{ MEDIA_URL }}icons/{{ doc.css_class }}.png">{{ doc.filename }}</p></a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <iframe src="" name="iframe_a" align="middle" width=700 class="hidden1 test"></iframe>
+    </div>
+{% endblock %}

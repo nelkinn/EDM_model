@@ -1,0 +1,53 @@
+{% extends 'documents/base.html' %}
+
+{% block menu2 %}
+    <a href="{% url 'doc_new' %}">Зарегистрировать документ</a>
+    <a href="{% url 'docs_list' group='Приказ' %}">Приказ</a>
+    <a href="{% url 'docs_list' group='Договор' %}">Договор</a>
+    <a href="{% url 'docs_list' group='Протокол' %}">Протокол</a>
+    <a href="{% url 'docs_list' group='Отчет' %}">Отчет</a>
+    <a href="{% url 'docs_list' group='Акт' %}">Акт</a>
+    <a href="{% url 'docs_list' group='Счет' %}">Счет</a>
+    <a href="{% url 'docs_list' group='Накладная' %}">Накладная</a>
+    <a href="{% url 'docs_list' group='Докладная записка' %}">Докладная записка</a>
+    <div class="search">
+        <input type="search" name="q" placeholder="Поиск по документам">
+            <button type="submit">Найти</button>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-6 document">
+        {% for doc in docs %}
+            <a href="{% url 'select_doc' pk=doc.pk %}">
+            <div class="row doc_block">
+                <div class="col-md-5">
+                    <div class="author">
+                        <h1>{{ doc.author }}</h1>
+                    </div>
+                    <div class="date">
+                        {{ doc.create_date|date:"j E Y" }}
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="type_doc">
+                        {{ doc.group }}
+                    </div>
+                    <div class="title_doc">
+                        {{ doc.title }}
+                    </div>
+                </div>
+                {% if doc.signature %}
+                    <div class="col-md-2 signature_check">
+                        На подпись
+                    </div>
+                {% endif %}
+            </div></a>
+        <hr>
+        {% endfor %}
+    </div>
+
+    {% block doc_info %} <!--doc_info.html-->
+    {% endblock %}
+
+{% endblock %}

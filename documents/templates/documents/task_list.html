@@ -1,0 +1,177 @@
+{% extends 'documents/base.html' %}
+
+
+{% block menu2 %}
+    <a href="{% url 'task_new' %}">Создать поручение</a>
+    <a href="{% url 'my_tasks' %}">Мои поручения</a>
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-9 task">
+        <h1>Актуальные</h1>
+        <div class="row titles_tasks">
+            <div class="col-md-1">
+
+            </div>
+            <div class="col-md-2">
+                <b>Тип</b>
+            </div>
+            <div class="col-md-2">
+                Поручитель
+            </div>
+            <div class="col-md-3">
+                Заголовок
+            </div>
+            <div class="col-md-2">
+                Выполнить до
+            </div>
+            <div class="col-md-2">
+                Статус
+            </div>
+        </div>
+        {% for task in actual_tasks %}
+                <a href="{% url 'select_task' pk=task.pk %}">
+                <div class="row task_block">
+                    <div class="col-md-1 quickly_check">
+                        {% if task.quickly %}
+                            <img src="{{ MEDIA_URL }}icons/voskl.png" title="Срочно">
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-2 task_type">
+                        <b>{{ task.group }}</b>
+                    </div>
+
+                    <div class="col-md-2 task_author">
+                        {{ task.author }}
+                    </div>
+
+                    <div class="col-md-3 task_title">
+                        {{ task.title }}
+                    </div>
+
+                    <div class="col-md-2 task_date">
+                        {{ task.final_date|date:"j E" }}
+                    </div>
+
+                    <div class="col-md-2 task_status">
+                        {{ task.get_status_display }}
+                    </div>
+                </div></a>
+                <hr>
+        {% endfor %}
+
+        <h1>{{ today|date:"j E" }} (Сегодня)</h1>
+        {% if today_tasks.count > 0 %}
+            {% for task in today_tasks %}
+                <a href="/tasks">
+                    <div class="row task_block">
+                        <div class="col-md-1 quickly_check">
+                            {% if task.quickly %}
+                                <img src="{{ MEDIA_URL }}icons/voskl.png" title="Срочно">
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-2 task_type">
+                            <b>{{ task.group }}</b>
+                        </div>
+
+                        <div class="col-md-2 task_author">
+                            {{ task.author }}
+                        </div>
+
+                        <div class="col-md-3 task_title">
+                            {{ task.title }}
+                        </div>
+
+                        <div class="col-md-2 task_date">
+                            {{ task.final_date|date:"j E" }}
+                        </div>
+
+                        <div class="col-md-2 task_status">
+                            {{ task.get_status_display }}
+                        </div>
+                    </div></a>
+                    <hr>
+            {% endfor %}
+        {% else %}
+            <p>Задач нет</p>
+            <hr>
+        {% endif %}
+
+        <h1>{{ yesterday|date:"j E" }} (Вчера)</h1>
+        {% if yesterday_tasks.count > 0 %}
+            {% for task in yesterday_tasks %}
+                <a href="/tasks">
+                    <div class="row task_block">
+                        <div class="col-md-1 quickly_check">
+                            {% if task.quickly %}
+                                <img src="{{ MEDIA_URL }}icons/voskl.png" title="Срочно">
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-2 task_type">
+                            <b>{{ task.group }}</b>
+                        </div>
+
+                        <div class="col-md-2 task_author">
+                            {{ task.author }}
+                        </div>
+
+                        <div class="col-md-3 task_title">
+                            {{ task.title }}
+                        </div>
+
+                        <div class="col-md-2 task_date">
+                            {{ task.final_date|date:"j E" }}
+                        </div>
+
+                        <div class="col-md-2 task_status">
+                            {{ task.get_status_display }}
+                        </div>
+                    </div></a>
+                    <hr>
+            {% endfor %}
+        {% else %}
+            <p>Задач нет</p>
+            <hr>
+        {% endif %}
+
+        {% regroup latTasks_list by date as sortTasks_list %}
+        {% for date in sortTasks_list %}
+            <h1>{{ date.grouper|date:"j E" }}</h1>
+            {% for task in date.list %}
+                <a href="/tasks">
+                    <div class="row task_block">
+                        <div class="col-md-1 quickly_check">
+                            {% if task.object.quickly %}
+                                <img src="{{ MEDIA_URL }}icons/voskl.png" title="Срочно">
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-2 task_type">
+                            <b>{{ task.object.group }}</b>
+                        </div>
+
+                        <div class="col-md-2 task_author">
+                            {{ task.object.author }}
+                        </div>
+
+                        <div class="col-md-3 task_title">
+                            {{ task.object.title }}
+                        </div>
+
+                        <div class="col-md-2 task_date">
+                            {{ task.object.final_date|date:"j E" }}
+                        </div>
+
+                        <div class="col-md-2 task_status">
+                            {{ task.object.get_status_display }}
+                        </div>
+                    </div></a>
+                    <hr>
+            {% endfor %}
+        {% endfor %}
+
+    </div>
+{% endblock %}

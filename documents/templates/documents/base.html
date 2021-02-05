@@ -1,0 +1,57 @@
+{% load static %}
+<html>
+    <head>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/documents.css' %}?2">
+
+        <script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/scripts.js' %}?2"></script>
+
+        <title>Документооборот</title>
+    </head>
+    <body>
+        <div class="page-header">
+            <div class="mirea">
+                <img src="{{ MEDIA_URL }}icons/mirea.jpg">
+            </div>
+            <div class="head_title">
+                <h1><a href="/">Электронный документооборот</a></h1>
+            </div>
+            <div class="username">
+                <p>Вы вошли как {{ request.user }}</p>
+                <p><a href="/">Выйти</a></p>
+            </div>
+
+        </div>
+
+        <div class="content">
+            <div class="row">
+                <div class="col-md-1 menu"> <!--Меню системы-->
+                    <div>
+                        <a href="{% url 'tasks_list' %}"><img src="{{ MEDIA_URL }}icons/tasks.png"></a>
+                        <h1>Задачи</h1>
+                    </div>
+                    <div>
+                        <a href="{% url 'docs_list' %}"><img src="{{ MEDIA_URL }}icons/documents.png"></a>
+                        <h1>Документы</h1>
+                    </div>
+                    <div>
+                        <a href="/"><img src="{{ MEDIA_URL }}icons/handbook.png"></a>
+                        <h1>Справочник</h1>
+                    </div>
+                </div>
+                <div class="col-md-1 menu2">
+                    {% block menu2 %}
+                    {% endblock %}
+                </div>
+                <div class="col-md-10 main">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,65 @@
+{% extends 'documents/base.html' %}
+
+{% block menu2 %}
+    <a href="{% url 'task_new' %}">Создать поручение</a>
+    <a href="{% url 'my_tasks' %}">Мои поручения</a>
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-8 task_display">
+        <div class="info_task">
+            <h1>{{ selection_task.title }}</h1>
+            <div class="info_bar">
+                <div>Поручитель: {{ selection_task.author }}, {{ selection_task.create_date|date:"j E" }}</div>
+                <div>Необходимо выполнить до: {{ selection_task.final_date|date:"j E" }}</div>
+                <div>Вложения: </div>
+            </div>
+            <div class="info_bar2">
+                <div>Сообщение: {{ selection_task.text }}</div>
+            </div>
+
+            <div class="form_display ">
+                    {% if answers %}
+                        <div class="col-md-5">
+                            <h1>Ожидание ответа от поручителя</h1>
+                        </div>
+
+                        {% for ans in answers %}
+                        <div class="col-md-1 history">
+                            <a href="{% url 'history_task' pk=selection_task.pk id_answer=ans.pk%}">{{ans.number}}</a>
+                        </div>
+                        {% endfor %}
+                        <div class="answerForm">
+                            <textarea disabled>{{ latest_answer.text }}{{ selection_answer.text }}</textarea>
+                            <div class="answerFile">
+                                <div class="col-md-3">
+                                    Прикрепленные файлы:
+                                </div>
+                                {% if answer_file %}
+                                {% for file in answer_file %}
+                                    <div class="col-md-3">
+                                    {{ file.filename }}
+                                    </div>
+                                {% endfor %}
+                                {% else %}
+                                    Прикрепленных файлов нет
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% else %}
+                    <div class="col-md-4">
+                        <h1>Новый отчет о выполении</h1>
+                    </div>
+                    <div class="answerForm">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ answerForm.text }}
+                            {{ fileForm.as_p }}
+                            <button type="submit">Отправить</button>
+                        </form>
+                    </div>
+                    {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
